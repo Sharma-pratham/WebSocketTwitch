@@ -1,0 +1,10 @@
+package com.backendTestStonks.backendTest.Model;
+
+public class SignupRequest {
+    private String fullName;
+    private String username;
+    private String email;
+    private String password;
+
+    // Getters and Setters
+}

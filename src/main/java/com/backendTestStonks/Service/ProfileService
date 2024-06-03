@@ -1,18 +1,14 @@
 package com.backendTestStonks.backendTest.service;
 
 import com.backendTestStonks.backendTest.model.Profile;
-import com.backendTestStonks.backendTest.model.Role;
 import com.backendTestStonks.backendTest.repository.ProfileRepository;
-import com.backendTestStonks.backendTest.repository.RoleRepository;
+import com.backendTestStonks.backendTest.dao.SignupRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
-import java.util.HashSet;
-import java.util.Optional;
-import java.util.Set;
-import java.util.UUID;
+import java.sql.Timestamp;
+import java.time.Instant;
 
 @Service
 public class ProfileService {
@@ -21,31 +17,22 @@ public class ProfileService {
     private ProfileRepository profileRepository;
 
     @Autowired
-    private RoleRepository roleRepository;
-
-    @Autowired
     private PasswordEncoder passwordEncoder;
 
-    public Optional<Profile> findByUsername(String username) {
-        return profileRepository.findByUsername(username);
-    }
-
-    public Optional<Profile> findByEmail(String email) {
-        return profileRepository.findByEmail(email);
-    }
-
-    public Profile save(Profile profile, Set<String> roleNames) {
-        profile.setPassword(passwordEncoder.encode(profile.getPassword()));
-        profile.setActive(true);
-        profile.setCreatedAt(LocalDateTime.now());
-        profile.setUpdatedAt(LocalDateTime.now());
-
-        Set<Role> roles = new HashSet<>();
-        for (String roleName : roleNames) {
-            Role role = roleRepository.findByName(roleName).orElseThrow(() -> new RuntimeException("Role not found: " + roleName));
-            roles.add(role);
+    public Profile signup(SignupRequest signupRequest) {
+        if (profileRepository.findByEmail(signupRequest.getEmail()).isPresent() || 
+            profileRepository.findByUsername(signupRequest.getUsername()).isPresent()) {
+            throw new RuntimeException("Email or Username already exists!");
         }
-        profile.setRoles(roles);
+
+        Profile profile = new Profile();
+        profile.setFullName(signupRequest.getFullName());
+        profile.setUsername(signupRequest.getUsername());
+        profile.setEmail(signupRequest.getEmail());
+        profile.setPassword(passwordEncoder.encode(signupRequest.getPassword()));
+        profile.setActive(true);
+        profile.setCreatedAt(Timestamp.from(Instant.now()));
+        profile.setUpdatedAt(Timestamp.from(Instant.now()));
 
         return profileRepository.save(profile);
     }
