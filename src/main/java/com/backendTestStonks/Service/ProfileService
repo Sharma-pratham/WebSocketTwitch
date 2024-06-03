@@ -1,0 +1,37 @@
+package com.backendTestStonks.backendTest.service;
+
+import com.backendTestStonks.backendTest.model.Profile;
+import com.backendTestStonks.backendTest.repository.ProfileRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
+
+import java.time.LocalDateTime;
+import java.util.Optional;
+import java.util.UUID;
+
+@Service
+public class ProfileService {
+
+    @Autowired
+    private ProfileRepository profileRepository;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
+    public Optional<Profile> findByUsername(String username) {
+        return profileRepository.findByUsername(username);
+    }
+
+    public Optional<Profile> findByEmail(String email) {
+        return profileRepository.findByEmail(email);
+    }
+
+    public Profile save(Profile profile) {
+        profile.setPassword(passwordEncoder.encode(profile.getPassword()));
+        profile.setActive(true);
+        profile.setCreatedAt(LocalDateTime.now());
+        profile.setUpdatedAt(LocalDateTime.now());
+        return profileRepository.save(profile);
+    }
+}

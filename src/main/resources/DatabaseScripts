@@ -1,0 +1,19 @@
+-- Create table and uuid generator
+
+CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
+
+SELECT * FROM pg_available_extensions WHERE name = 'uuid-ossp';
+
+CREATE TABLE profiles (
+    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+    full_name VARCHAR(255),
+    username VARCHAR(255) NOT NULL UNIQUE,
+    email VARCHAR(255) NOT NULL UNIQUE,
+    password VARCHAR(255) NOT NULL,
+    avatar VARCHAR(255),
+    active BOOLEAN,
+    created_at TIMESTAMP,
+    updated_at TIMESTAMP
+);
+
+
