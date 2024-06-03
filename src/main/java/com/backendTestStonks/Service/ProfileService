@@ -1,13 +1,17 @@
 package com.backendTestStonks.backendTest.service;
 
 import com.backendTestStonks.backendTest.model.Profile;
+import com.backendTestStonks.backendTest.model.Role;
 import com.backendTestStonks.backendTest.repository.ProfileRepository;
+import com.backendTestStonks.backendTest.repository.RoleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.HashSet;
 import java.util.Optional;
+import java.util.Set;
 import java.util.UUID;
 
 @Service
@@ -15,6 +19,9 @@ public class ProfileService {
 
     @Autowired
     private ProfileRepository profileRepository;
+
+    @Autowired
+    private RoleRepository roleRepository;
 
     @Autowired
     private PasswordEncoder passwordEncoder;
@@ -27,11 +34,19 @@ public class ProfileService {
         return profileRepository.findByEmail(email);
     }
 
-    public Profile save(Profile profile) {
+    public Profile save(Profile profile, Set<String> roleNames) {
         profile.setPassword(passwordEncoder.encode(profile.getPassword()));
         profile.setActive(true);
         profile.setCreatedAt(LocalDateTime.now());
         profile.setUpdatedAt(LocalDateTime.now());
+
+        Set<Role> roles = new HashSet<>();
+        for (String roleName : roleNames) {
+            Role role = roleRepository.findByName(roleName).orElseThrow(() -> new RuntimeException("Role not found: " + roleName));
+            roles.add(role);
+        }
+        profile.setRoles(roles);
+
         return profileRepository.save(profile);
     }
 }

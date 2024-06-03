@@ -12,6 +12,8 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Set;
+
 @RestController
 @RequestMapping("/api/auth")
 public class AuthController {
@@ -26,12 +28,11 @@ public class AuthController {
     private JwtTokenProvider jwtTokenProvider;
 
     @PostMapping("/signup")
-    public ResponseEntity<?> registerUser(@RequestBody Profile profile) {
+    public ResponseEntity<?> registerUser(@RequestBody Profile profile, @RequestParam Set<String> roles) {
         if (profileService.findByUsername(profile.getUsername()).isPresent() || profileService.findByEmail(profile.getEmail()).isPresent()) {
             return ResponseEntity.badRequest().body("Username or Email is already taken!");
         }
-        profile.setRole("USER");  // Default role
-        profileService.save(profile);
+        profileService.save(profile, roles);
         return ResponseEntity.ok("User registered successfully");
     }
 
