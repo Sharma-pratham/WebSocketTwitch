@@ -1,4 +1,4 @@
-package com.backendTestStonks.backendTest.config;
+package com.backendTestStonks.backendTest.Config;
 
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.Info;

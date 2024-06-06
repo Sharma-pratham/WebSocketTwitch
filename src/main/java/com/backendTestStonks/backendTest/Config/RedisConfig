@@ -1,4 +1,4 @@
-package com.backendTestStonks.backendTest.Configuration;
+package com.backendTestStonks.backendTest.Config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

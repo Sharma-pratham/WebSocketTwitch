@@ -1,4 +1,4 @@
-package com.backendTestStonks.backendTest.service;
+package com.backendTestStonks.backendTest.Service;
 
 import com.backendTestStonks.backendTest.model.Profile;
 import com.backendTestStonks.backendTest.repository.ProfileRepository;

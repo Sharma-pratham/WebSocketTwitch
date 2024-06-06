@@ -1,4 +1,4 @@
-package com.backendTestStonks.backendTest.model;
+package com.backendTestStonks.backendTest.Model;
 
 import org.hibernate.annotations.GenericGenerator;
 

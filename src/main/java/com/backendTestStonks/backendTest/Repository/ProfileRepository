@@ -1,4 +1,4 @@
-package com.backendTestStonks.backendTest.repository;
+package com.backendTestStonks.backendTest.Repository;
 
 import com.backendTestStonks.backendTest.model.Profile;
 import org.springframework.data.jpa.repository.JpaRepository;

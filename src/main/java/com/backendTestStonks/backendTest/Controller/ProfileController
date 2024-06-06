@@ -1,4 +1,4 @@
-package com.backendTestStonks.backendTest.controller;
+package com.backendTestStonks.backendTest.Controller;
 
 import com.backendTestStonks.backendTest.model.Profile;
 import com.backendTestStonks.backendTest.service.ProfileService;
@@ -10,7 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/auth")
+@RequestMapping("/api")
 @Tag(name = "Authentication", description = "Endpoints for user authentication and registration")
 public class ProfileController {
 
@@ -22,5 +22,10 @@ public class ProfileController {
     public ResponseEntity<Profile> signup(@RequestBody SignupRequest signupRequest) {
         Profile profile = profileService.signup(signupRequest);
         return ResponseEntity.ok(profile);
+    }
+
+    @GetMapping("/status")
+    public String getStatus() {
+        return "Application is running";
     }
 }
