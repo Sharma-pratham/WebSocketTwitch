@@ -1,14 +1,15 @@
 package com.backendTestStonks.backendTest.Service;
 
-import com.backendTestStonks.backendTest.model.Profile;
-import com.backendTestStonks.backendTest.repository.ProfileRepository;
-import com.backendTestStonks.backendTest.dao.SignupRequest;
+import java.sql.Timestamp;
+import java.time.Instant;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.sql.Timestamp;
-import java.time.Instant;
+import com.backendTestStonks.backendTest.Model.Profile;
+import com.backendTestStonks.backendTest.Model.SignupRequest;
+import com.backendTestStonks.backendTest.Repository.ProfileRepository;
 
 @Service
 public class ProfileService {
